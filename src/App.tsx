@@ -1,22 +1,41 @@
-import libdogecoin from "@mydogeofficial/dogecoin-js";
 import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
   const [state, setState] = useState({ pub: "", priv: "" });
 
   useEffect(() => {
-    (async () => {
-      const [pub, priv] = await libdogecoin.generatePrivPubKeypair();
-      setState({ pub, priv });
-    })();
+    const script = document.createElement("script");
+    script.src = `https://cdn.mydoge.com/libdogecoin-web.js?cachebreak=${Date.now()}`;
+    script.id = "libdogecoin";
+    document.body.appendChild(script);
+    script.onload = async () => {
+      const libdogecoin: any = await window.loadWASM();
+      libdogecoin._dogecoin_ecc_start();
+
+      const privatePtr = libdogecoin.allocate(
+        libdogecoin.intArrayFromString(""),
+        libdogecoin.ALLOC_NORMAL
+      );
+      const publicPtr = libdogecoin.allocate(
+        libdogecoin.intArrayFromString(""),
+        libdogecoin.ALLOC_NORMAL
+      );
+
+      libdogecoin._generatePrivPubKeypair(privatePtr, publicPtr, false);
+
+      const privKey = `${libdogecoin.UTF8ToString(privatePtr)}`;
+      const pubKey = `${libdogecoin.UTF8ToString(publicPtr)}`;
+
+      libdogecoin._dogecoin_ecc_stop();
+
+      setState({ pub: pubKey, priv: privKey });
+    };
   }, [setState]);
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
