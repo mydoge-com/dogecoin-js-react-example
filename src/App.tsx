@@ -1,8 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import libdogecoin from "@mydogeofficial/dogecoin-js";
+import React, { useEffect, useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
+  const [state, setState] = useState({ pub: "", priv: "" });
+
+  useEffect(() => {
+    (async () => {
+      const [pub, priv] = await libdogecoin.generatePrivPubKeypair();
+      setState({ pub, priv });
+    })();
+  }, [setState]);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -16,7 +26,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          {`pub: ${state.pub} priv: ${state.priv}`}
         </a>
       </header>
     </div>
