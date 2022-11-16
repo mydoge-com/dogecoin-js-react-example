@@ -6,7 +6,7 @@ function App() {
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = `https://cdn.mydoge.com/libdogecoin-web.js?cachebreak=${Date.now()}`;
+    script.src = "libdogecoin-web.js";
     script.id = "libdogecoin";
     document.body.appendChild(script);
     script.onload = async () => {
@@ -45,7 +45,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          {`pub: ${state.pub} priv: ${state.priv}`}
+          {`pub: ${state.pub} <br> priv: ${state.priv}`}
         </a>
       </header>
     </div>
