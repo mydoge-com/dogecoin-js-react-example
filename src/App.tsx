@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const [state, setState] = useState({ pub: "", priv: "" });
+  const [state, setState] = useState({ privKey: "", pubKey: "" });
 
   useEffect(() => {
     (async () => {
-      const [pubKey, privKey] = await dogecoin_js.generatePrivPubKeypair();
-      setState({ pub: pubKey, priv: privKey });
+      const [privKey, pubKey] = await dogecoin_js.generatePrivPubKeypair();
+      setState({ privKey, pubKey });
     })();
   }, []);
 
@@ -18,8 +18,8 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <p>{`pub: ${state.pub}`}</p>
-        <p>{`priv: ${state.priv}`}</p>
+        <p>{`privKey: ${state.privKey}`}</p>
+        <p>{`pubKey: ${state.pubKey}`}</p>
       </header>
     </div>
   );
