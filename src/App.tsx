@@ -1,4 +1,4 @@
-import * as dogecoin_js from "@mydogeofficial/dogecoin-js";
+import { DogecoinJS } from "@mydogeofficial/dogecoin-js";
 import React, { useEffect, useState } from "react";
 import "./App.css";
 
@@ -7,6 +7,7 @@ function App() {
 
   useEffect(() => {
     (async () => {
+      const dogecoin_js: DogecoinJS = await DogecoinJS.init();
       const [privKey, pubKey] = await dogecoin_js.generatePrivPubKeypair();
       setState({ privKey, pubKey });
     })();
@@ -18,8 +19,8 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <p>{`privKey: ${state.privKey}`}</p>
-        <p>{`pubKey: ${state.pubKey}`}</p>
+        <p data-testid="priv">{`privKey: ${state.privKey}`}</p>
+        <p data-testid="pub">{`pubKey: ${state.pubKey}`}</p>
       </header>
     </div>
   );
