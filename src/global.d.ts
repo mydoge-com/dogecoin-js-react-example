@@ -1,3 +1,3 @@
 interface Window {
-  loadWASM: () => Promise<void>;
+  generatePrivPubKeypair: () => Promise<string[]>;
 }
